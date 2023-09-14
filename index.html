@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Frase Motivacional</title>
+</head>
+<body>
+    <h1>Frase Motivacional do Dia:</h1>
+    <p id="motivational-quote">Carregando...</p>
+
+    <script>
+        // Função para atualizar a frase motivacional
+        function updateMotivationalQuote() {
+            var quotes = [
+                "Acredite em si mesmo e em seu potencial!",
+                "O sucesso vem para aqueles que perseveram.",
+                "Cada novo dia é uma nova chance de alcançar seus objetivos.",
+                "A jornada é tão importante quanto o destino.",
+                "Nunca desista, pois grandes coisas levam tempo."
+            ];
+
+            // Escolhe uma frase aleatória
+            var randomIndex = Math.floor(Math.random() * quotes.length);
+            var quote = quotes[randomIndex];
+
+            // Exibe a frase motivacional
+            document.getElementById("motivational-quote").textContent = quote;
+        }
+
+        // Função para obter a localização do usuário
+        function getLocation() {
+            if ("geolocation" in navigator) {
+                navigator.geolocation.getCurrentPosition(function(position) {
+                    var latitude = position.coords.latitude;
+                    var longitude = position.coords.longitude;
+
+                    // Aqui você pode usar as coordenadas (latitude e longitude) para personalizar o conteúdo ou fazer outras ações
+                    console.log("Latitude: " + latitude);
+                    console.log("Longitude: " + longitude);
+
+
+
+                    // Use uma API de geocodificação para obter informações de localização, como cidade e bairro
+    var geocodingUrl = "https://nominatim.openstreetmap.org/reverse?format=json&lat=" + latitude + "&lon=" + longitude;
+    
+    fetch(geocodingUrl)
+      .then(function(response) {
+        return response.json();
+      })
+      .then(function(data) {
+        // Informações de localização
+        var cidade = data.address.town;
+        var cep = data.address.postcode;
+        var estado = data.address.state;
+        
+        // Use as informações de localização para personalizar o conteúdo
+        console.log("Cidade: " + cidade);
+        console.log("Cep: " + cep);
+        console.log("estado: " + estado)
+        alert("cidade: " + cidade +"\n" + "cep: " + cep)
+        
+        // Aqui você pode atualizar a página ou fazer qualquer ação com base na localização obtida
+      })
+      .catch(function(error) {
+        console.error("Erro ao obter informações de localização: " + error.message);
+      });
+  });
+
+
+            } else {
+                console.log("Geolocalização não suportada pelo navegador.");
+            }
+        }
+
+        // Atualiza a frase motivacional e obtém a localização do usuário quando a página carrega
+        window.onload = function() {
+            updateMotivationalQuote();
+            getLocation();
+        };
+    </script>
+</body>
+</html>
